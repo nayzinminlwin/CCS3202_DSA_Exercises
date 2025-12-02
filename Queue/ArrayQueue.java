@@ -28,37 +28,38 @@ public class ArrayQueue implements Queue {
     @Override
     public void enqueue(Object item) {
         if (isFull()) {
-            this.resize(item);
+            this.resize();
         }
         rear = (rear + 1) % capacity;
         items[rear] = item;
         size++;
     }
 
-    private void resize(Object item) {
-        int newCapacity = capacity * 2;
+    private void resize() {
+        int newCapacity = (capacity == 0) ? 1 : capacity * 2;
         Object[] newItems = new Object[newCapacity];
         for (int i = 0; i < size; i++) {
-            System.out.printf("newItems[%d] = items[%d]\n", i, (front + i) % capacity);
-            System.out.printf("%s = %s\n", newItems[i], items[(front + i) % capacity]);
             newItems[i] = items[(front + i) % capacity];
         }
         items = newItems;
         front = 0;
         rear = size - 1;
         capacity = newCapacity;
-        enqueue(item);
     }
 
     @Override
     public Object dequeue() {
         if (isEmpty()) {
-            throw new IllegalStateException("Queue is empty");
+            // throw new IllegalStateException("Queue is empty");
+            // System.out.println("Queue is empty");
+            return null;
+        } else {
+            Object item = items[front];
+            front = (front + 1) % capacity;
+            size--;
+            return item;
         }
-        Object item = items[front];
-        front = (front + 1) % capacity;
-        size--;
-        return item;
+
     }
 
     @Override
@@ -67,6 +68,13 @@ public class ArrayQueue implements Queue {
             throw new IllegalStateException("Queue is empty");
         }
         return items[front];
+    }
+
+    public Object getRear() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+        return items[rear];
     }
 
     @Override
