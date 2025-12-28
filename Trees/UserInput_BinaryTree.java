@@ -5,26 +5,34 @@ import java.util.Scanner;
 public class UserInput_BinaryTree {
     public static void main(String[] args) {
 
-        boolean exit = false;
+        // 8 72 917 39 72 36 18 9 71 616 63 9 1 5 1 53 0
+
         Scanner sc = new Scanner(System.in);
         // accept input from user
         System.out.print("Enter integers to insert into BST (space-separated): ");
         String input = sc.nextLine();
 
+        // tree initialization
         Node myTree = null;
 
+        // user input to BST
         String[] strArr = input.split(" ");
         for (int i = 0; i < strArr.length; i++) {
             myTree = Node.InsertNodeBST(myTree, Integer.parseInt(strArr[i]));
         }
 
-        while (exit == false) {
+        // interactive prompt
+        while (true) {
+
             System.out.print("Enter your command (press ? for help) : ");
             String cmd = sc.nextLine();
+
+            // get first character of command
             char firstChar = cmd.toUpperCase().charAt(0);
+
             if (firstChar == 'Q') {
+                // exit from infinite loop
                 System.out.println("Exiting...");
-                exit = true;
                 break;
             } else if (firstChar == '?') {
                 helpFunction();
@@ -35,30 +43,38 @@ public class UserInput_BinaryTree {
                 boolean found = Node.searchBST(myTree, Integer.parseInt(inputStr[1]));
 
                 if (found)
-                    System.out.printf("Number %d is FOUND!", inputStr[1]);
+                    System.out.printf("Number %s is FOUND!", inputStr[1]);
                 else
-                    System.out.printf("Number %d is NOT FOUND!", inputStr[1]);
+                    System.out.printf("Number %s is NOT FOUND!", inputStr[1]);
+
+                System.out.println();
+
             } else if (firstChar == 'D') {
+
+                // delete confirmation
                 System.out.print("Are you sure you want to delete? (Y/N) : ");
                 String confirm = sc.nextLine();
                 char confirmChar = confirm.toUpperCase().charAt(0);
+
                 if (confirmChar == 'Y') {
+
                     String[] inputStr = cmd.split(" ");
-                    // deletion function to be implemented
-                    System.out.println("Delete function not yet implemented.");
+
+                    // invoking delete function
+                    myTree = Node.deleteNode(myTree, Integer.parseInt(inputStr[1]));
+                    System.out.println("Deleted number " + inputStr[1] + " from the tree.");
+
                 } else {
                     System.out.println("Deletion cancelled.");
                 }
-            } else {
+            }
+            // last else for invalid command
+            else {
                 System.out.println("Invalid command. Press '?' for help menu.");
             }
 
         }
 
-    }
-
-    public void searchFunction(Node myTree, int val) {
-        Node.searchBST(myTree, val);
     }
 
     public static void treeInfo(Node myTree) {
