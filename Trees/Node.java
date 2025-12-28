@@ -43,28 +43,31 @@ public class Node {
         this.rightChild = rc;
     }
 
-    public static void inOrderBST(Node node) {
-        if (node == null)
-            return;
-        inOrderBST(node.getLeftChild());
-        System.out.print(node.getCurrentNode() + " ");
-        inOrderBST(node.getRightChild());
-    }
-
+    // node - left - right
     public static void preOrderBST(Node node) {
         if (node == null)
             return;
-        System.out.print(node.getCurrentNode() + " ");
+        System.out.print(node.getCurrentNode() + ", ");
         preOrderBST(node.getLeftChild());
         preOrderBST(node.getRightChild());
     }
 
+    // left - node - right
+    public static void inOrderBST(Node node) {
+        if (node == null)
+            return;
+        inOrderBST(node.getLeftChild());
+        System.out.print(node.getCurrentNode() + ", ");
+        inOrderBST(node.getRightChild());
+    }
+
+    // left - right - node
     public static void postOrderBST(Node node) {
         if (node == null)
             return;
         postOrderBST(node.getLeftChild());
         postOrderBST(node.getRightChild());
-        System.out.print(node.getCurrentNode() + " ");
+        System.out.print(node.getCurrentNode() + ", ");
     }
 
     public static boolean searchBST(Node node, int val) {
@@ -121,20 +124,84 @@ public class Node {
         int leftHeight = -1;
         int rightHeight = -1;
 
+        // recursively calculate height of left and right subtrees
         if (this.leftChild != null) {
-            this.leftChild.calculateHeight();
             leftHeight = this.leftChild.getHeight();
         }
 
         if (this.rightChild != null) {
-            this.rightChild.calculateHeight();
             rightHeight = this.rightChild.getHeight();
         }
 
+        // height is max of left and right subtree heights plus one for current node
         this.height = Math.max(leftHeight, rightHeight) + 1;
     }
 
     public int getHeight() {
+        this.calculateHeight();
         return this.height;
+    }
+
+    public String isBalanceTree() {
+        int difference = this.leftChild.getHeight() - this.rightChild.getHeight();
+        if (difference >= -1 && difference <= 1) {
+            return "YES";
+        }
+        return "NO";
+    }
+
+    public static Node deleteNode(Node node, int val) {
+        // return null if node is null
+        if (node == null) {
+            return null;
+        }
+
+        // Tree Traversal to left
+        if (val < node.currentNode) {
+            node.leftChild = deleteNode(node.leftChild, val);
+            return node;
+        }
+        // Tree Traversal to right
+        else if (val > node.currentNode) {
+            node.rightChild = deleteNode(node.rightChild, val);
+            return node;
+        }
+        // found the value
+        else {
+            // solo leaf
+            if (node.leftChild == null && node.rightChild == null) {
+                return null;
+            }
+            // a parent with both left and right child
+            else if (node.leftChild != null && node.rightChild != null) {
+
+                // First step : go to right child
+                Node successor = node.rightChild;
+
+                // now traverse all the way to left
+                // to find the smallest value
+                while (successor.leftChild != null) {
+                    successor = successor.leftChild;
+                }
+
+                // replace current node's value with successor's value
+                // in this case,
+                // replace the current value with the smallest value in the right subtree
+                node.currentNode = successor.currentNode;
+
+                // now delete the successor node
+                node.rightChild = deleteNode(node.rightChild, successor.currentNode);
+
+                return node;
+            }
+            // a parent with leftChild
+            else if (node.leftChild != null) {
+                return node.leftChild;
+            }
+            // a parent with rightChild
+            else {
+                return node.rightChild;
+            }
+        }
     }
 }

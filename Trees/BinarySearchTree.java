@@ -34,7 +34,6 @@ public class BinarySearchTree {
         System.out.println();
         System.out.println(Node.searchBST(myTree, 6));
 
-        myTree.calculateHeight();
         System.out.println(myTree.getHeight());
 
     }
