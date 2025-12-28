@@ -18,7 +18,16 @@ public class UserInput_BinaryTree {
         // user input to BST
         String[] strArr = input.split(" ");
         for (int i = 0; i < strArr.length; i++) {
-            myTree = Node.InsertNodeBST(myTree, Integer.parseInt(strArr[i]));
+
+            // check if the input value is positive integer
+            // and not already present in the tree
+            if (strArr[i].matches("\\+?\\d+") && !Node.searchBST(myTree, Integer.parseInt(strArr[i]))) {
+
+                myTree = Node.InsertNodeBST(myTree, Integer.parseInt(strArr[i]));
+
+            } else {
+                System.out.printf("Invalid input '%s' skipped. Please enter positive integers only.\n", strArr[i]);
+            }
         }
 
         // interactive prompt
