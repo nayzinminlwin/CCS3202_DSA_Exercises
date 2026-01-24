@@ -5,9 +5,10 @@ import java.util.Scanner;
 public class UserInput_BinaryTree {
     public static void main(String[] args) {
 
-        // 8 72 917 39 72 36 18 9 71 616 63 9 1 5 1 53 0
+        // 8 72 917 39 72 36 18 9 ggwp 71 +616 63 9 1 5 -11 53 0
 
         Scanner sc = new Scanner(System.in);
+
         // accept input from user
         System.out.print("Enter integers to insert into BST (space-separated): ");
         String input = sc.nextLine();
@@ -26,7 +27,7 @@ public class UserInput_BinaryTree {
                 myTree = Node.InsertNodeBST(myTree, Integer.parseInt(strArr[i]));
 
             } else {
-                System.out.printf("Invalid input '%s' skipped. Please enter positive integers only.\n", strArr[i]);
+                System.out.printf("Invalid input '%s' skipped.\n", strArr[i]);
             }
         }
 
@@ -96,13 +97,24 @@ public class UserInput_BinaryTree {
 
         System.out.println("\nHEIGHT : " + myTree.getHeight());
         System.out.println("BALANCED : " + myTree.isBalanceTree());
+
+        int leftTreeHeight = myTree.getLeftChild().getHeight();
+        int rightTreeHeight = myTree.getRightChild().getHeight();
+
+        System.out.println("Left Height : " + leftTreeHeight);
+        System.out.println("Right Height : " + rightTreeHeight);
+
     }
 
     public static void helpFunction() {
+        System.out.println("===========================================================");
+        System.out.println("\t \t \t HELP \t \t \t ");
+        System.out.println("===========================================================");
         System.out.println("Press 's <number>' to search the number in the tree.");
         System.out.println("Press 'd <number>' to delete the number from the tree.");
         System.out.println("Press 'X' to display tree information.");
         System.out.println("Press '?' to access the help menu.");
         System.out.println("Press 'Q' to exit the program");
+        System.out.println("===========================================================");
     }
 }

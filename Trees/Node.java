@@ -77,7 +77,7 @@ public class Node {
 
         // check if current node is the value
         if (node.currentNode == val) {
-            System.out.println("Found!");
+            // System.out.println("Found!");
             return true;
         }
 
