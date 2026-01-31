@@ -85,6 +85,8 @@ public class UserInput_BinaryTree {
 
         }
 
+        sc.close();
+
     }
 
     public static void treeInfo(Node myTree) {
